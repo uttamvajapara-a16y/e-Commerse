@@ -19,6 +19,4 @@ build/
 .DS_Store
 Thumbs.db
 
-
 **/routes/analyticsRoutes.js
-**/routes/paymentRoutes.js
