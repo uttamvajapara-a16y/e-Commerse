@@ -18,5 +18,3 @@ build/
 # OS files
 .DS_Store
 Thumbs.db
-
-**/routes/analyticsRoutes.js
