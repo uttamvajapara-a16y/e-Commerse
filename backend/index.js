@@ -3,6 +3,7 @@ dotenv.config() ;
 
 const express = require('express') ;
 const path = require('path') ;
+const fs = require('fs') ;
 const cors = require('cors') ;
 const connectDB = require('./config/db') ;
 
@@ -25,11 +26,24 @@ app.use('/api/payment', require('./routes/paymentRoutes'));
 app.use('/api/analytics', require('./routes/analyticsRoutes'));
 
 if (process.env.NODE_ENV === 'production') {
-  app.use(express.static(path.join(__dirname, '../frontend/build')));
-  
-  app.use((req, res) => {
-    res.sendFile(path.resolve(__dirname, '../frontend/build/index.html'));
-  });
+  const possibleFrontendPaths = [
+    path.join(__dirname, '../frontend/build'),
+    path.join(__dirname, '../frontend/dist')
+  ];
+
+  const frontendStaticPath = possibleFrontendPaths.find((candidatePath) => fs.existsSync(candidatePath));
+
+  if (frontendStaticPath) {
+    app.use(express.static(frontendStaticPath));
+
+    app.get('*', (req, res) => {
+      res.sendFile(path.join(frontendStaticPath, 'index.html'));
+    });
+  } else {
+    app.get('*', (req, res) => {
+      res.status(404).send('Frontend build not found. Please run the frontend build step.');
+    });
+  }
 } else {
   app.get('/', (req, res) => {
     res.send('ShopNest API is running in Development mode...');
