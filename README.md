@@ -32,6 +32,7 @@ Payments are handled through **Razorpay**, so users can actually pay online for 
 - View month-wise revenue breakdown (which month earned how much)
 
 > Only admins can add/edit/delete products — normal users can only view and buy them.
+> Seed admin access : Email: admin@eshopping.com | password: password123
 
 ## 🛠️ Tech Stack
 
